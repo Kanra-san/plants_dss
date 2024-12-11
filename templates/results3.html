@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wyniki Diagnostyki</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #e8f5e9; /* Light green */
+        }
+        h1 {
+            color: #388e3c; /* Dark green */
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .lead {
+            color: #388e3c;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        .card {
+            border-radius: 10px;
+            padding: 2rem;
+        }
+        .card-title {
+            font-size: 1.75rem;
+            color: #D32F2F;
+        }
+        .card-body {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .btn-primary {
+            background-color: #43a047; /* Leafy green */
+            border-color: #388e3c; /* Dark green border */
+            font-size: 1.2rem;
+        }
+        .btn-primary:hover {
+            background-color: #2c6e2f; /* Darker green for hover */
+            border-color: #1b4d1a; /* Darkest green for hover */
+        }
+        .container {
+            color: #2c6e2f;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h1>Wyniki Diagnostyki Choroby Rośliny <span style="font-weight: bold; color: #2c6e2f;">{{ flower_name }}</span></h1>
+            <p class="lead">Najbardziej prawdopodobna choroba </p>
+        </div>
+
+        {% if selected_disease %}
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h3 class="card-title">{{ selected_disease.disease_name }}</h3>
+                    <p class="card-text"><strong>Opis:</strong> {{ selected_disease.description }}</p>
+                    <p class="card-text"><strong>Rekomendacja:</strong> {{ selected_disease.recommendation }}</p>
+                </div>
+            </div>
+        {% else %}
+            <p>Brak wyniku diagnozy.</p>
+        {% endif %}
+
+        <a href="/" class="btn btn-primary w-100">Rozpocznij nową diagnozę</a>
+    </div>
+</body>
+</html>

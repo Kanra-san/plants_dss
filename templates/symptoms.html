@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Symptom Input</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Body background color */
+        body {
+            background-color: #e8f5e9; /* Light green */
+        }
+
+        /* Heading and text color */
+        h1, .lead {
+            color: #388e3c; /* Dark green */
+        }
+
+        /* Button color */
+        .btn-success {
+            background-color: #43a047; /* Leafy green */
+            border-color: #388e3c; /* Dark green border */
+        }
+
+        .btn-success:hover {
+            background-color: #2c6e2f; /* Darker green for hover */
+            border-color: #1b4d1a; /* Darkest green for hover */
+        }
+
+        /* Form background color */
+        .bg-white {
+            background-color: #ffffff; /* White background for form */
+        }
+
+        /* Input fields and sliders */
+        .form-range {
+            border-color: #81c784; /* Lighter green for sliders */
+        }
+
+        /* Slider labels */
+        .slider-container label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #000000; /* Dark green for labels #388e3c*/
+        }
+
+        /* N/A checkbox color */
+        .n-a-checkbox {
+            margin-left: 10px;
+        }
+
+        /* Slider container styling */
+        .slider-container {
+            margin-bottom: 30px;
+        }
+
+        /* Membership labels at the bottom of sliders */
+        .membership-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            color: #000000;
+        }
+
+        /* Form and container text color */
+        .container, .form-label {
+            color: #2c6e2f; /* Dark green for general text */
+        }
+
+        /* Box shadow for form */
+        .shadow {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+        <div class="text-center mb-4">
+            <h1 class="display-5">Objawy występujące u rośliny - {{ flower }}</h1>
+            <p class="lead">Za pomocą suwaków określ stopień zaawansowania objawów lub zaznacz "N/A" jeśli nie dotyczy.</p>
+        </div>
+        <form action="/results" method="POST" class="p-4 bg-white shadow rounded">
+            <input type="hidden" name="flower" value="{{ flower }}">
+
+            <!-- Symptoms in specified order -->
+            <div class="slider-container mb-3">
+                <label for="Leaf Color">
+                    Kolor liści
+                    <input type="checkbox" id="Leaf Color_na" class="n-a-checkbox" onclick="toggleNA('Leaf Color')"> N/A
+                </label>
+                <input type="range" id="Leaf Color" name="Leaf Color" class="form-range" min="1" max="9" step="0.1" value="1">
+                <div class="membership-labels">
+                    <small>Normalny</small>
+                    <small>Żółty</small>
+                    <small>Brązowy</small>
+                </div>
+            </div>
+
+            <div class="slider-container mb-3">
+                <label for="Petal Color">
+                    Kolor płatków
+                    <input type="checkbox" id="Petal Color_na" class="n-a-checkbox" onclick="toggleNA('Petal Color')"> N/A
+                </label>
+                <input type="range" id="Petal Color" name="Petal Color" class="form-range" min="1" max="9" step="0.1" value="1">
+                <div class="membership-labels">
+                    <small>Normalny</small>
+                    <small>Blady</small>
+                    <small>Brązowy</small>
+                </div>
+            </div>
+
+            <div class="slider-container mb-3">
+                <label for="Leaf Spots - Size">
+                    Plamy na liściach - rozmiar
+                    <input type="checkbox" id="Leaf Spots - Size_na" class="n-a-checkbox" onclick="toggleNA('Leaf Spots - Size')"> N/A
+                </label>
+                <input type="range" id="Leaf Spots - Size" name="Leaf Spots - Size" class="form-range" min="1" max="9" step="0.1" value="1">
+                <div class="membership-labels">
+                    <small>Brak</small>
+                    <small>Małe</small>
+                    <small>Średnie</small>
+                    <small>Duże</small>
+                </div>
+            </div>
+
+            <div class="slider-container mb-3">
+                <label for="Leaf Spots - Kind">
+                    Plamy na liściach - rodzaj
+                    <input type="checkbox" id="Leaf Spots - Kind_na" class="n-a-checkbox" onclick="toggleNA('Leaf Spots - Kind')"> N/A
+                </label>
+                <input type="range" id="Leaf Spots - Kind" name="Leaf Spots - Kind" class="form-range" min="1" max="9" step="0.1" value="1">
+                <div class="membership-labels">
+                    <small>Brak</small>
+                    <small>Smugi</small>
+                    <small>Pierścienie</small>
+                    <small>Plamy</small>
+                    <small>Dziury</small>
+                </div>
+            </div>
+
+            <div class="slider-container mb-3">
+                <label for="Spotting on Petals">
+                    Plamy na płatkach
+                    <input type="checkbox" id="Spotting on Petals_na" class="n-a-checkbox" onclick="toggleNA('Spotting on Petals')"> N/A
+                </label>
+                <input type="range" id="Spotting on Petals" name="Spotting on Petals" class="form-range" min="1" max="9" step="0.1" value="1">
+                <div class="membership-labels">
+                    <small>Brak</small>
+                    <small>Występuje</small>
+                </div>
+            </div>
+
+            <div class="slider-container mb-3">
+                <label for="Fungus Growth Spots">
+                    Plamy wzrostu grzybów
+                    <input type="checkbox" id="Fungus Growth Spots_na" class="n-a-checkbox" onclick="toggleNA('Fungus Growth Spots')"> N/A
+                </label>
+                <input type="range" id="Fungus Growth Spots" name="Fungus Growth Spots" class="form-range" min="1" max="9" step="0.1" value="1">
+                <div class="membership-labels">
+                    <small>Brak</small>
+                    <small>Małe</small>
+                    <small>Duże</small>
+                </div>
+            </div>
+
+            <div class="slider-container mb-3">
+                <label for="Spot Color Scale - YORB">
+                    Skala kolorów plam - Żółty - Pomarańczowy - Czerwony - Brązowy
+                    <input type="checkbox" id="Spot Color Scale - YORB_na" class="n-a-checkbox" onclick="toggleNA('Spot Color Scale - YORB')"> N/A
+                </label>
+                <input type="range" id="Spot Color Scale - YORB" name="Spot Color Scale - YORB" class="form-range" min="1" max="9" step="0.1" value="1">
+                <div class="membership-labels">
+                    <small>Żółty</small>
+                    <small>Pomarańczowy</small>
+                    <small>Czerwony</small>
+                    <small>Brązowy</small>
+                </div>
+            </div>
+
+            <div class="slider-container mb-3">
+                <label for="Spot Color Greyscale - WGB">
+                    Skala kolorów plam - Biały - Szary - Czarny
+                    <input type="checkbox" id="Spot Color Greyscale - WGB_na" class="n-a-checkbox" onclick="toggleNA('Spot Color Greyscale - WGB')"> N/A
+                </label>
+                <input type="range" id="Spot Color Greyscale - WGB" name="Spot Color Greyscale - WGB" class="form-range" min="1" max="9" step="0.1" value="1">
+                <div class="membership-labels">
+                    <small>Biały</small>
+                    <small>Szary</small>
+                    <small>Czarny</small>
+                </div>
+            </div>
+
+            <div class="slider-container mb-3">
+                <label for="Spore Masses">
+                    Skupiska zarodników
+                    <input type="checkbox" id="Spore Masses_na" class="n-a-checkbox" onclick="toggleNA('Spore Masses')"> N/A
+                </label>
+                <input type="range" id="Spore Masses" name="Spore Masses" class="form-range" min="1" max="9" step="0.1" value="1">
+                <div class="membership-labels">
+                    <small>Nie występują</small>
+                    <small>Mało</small>
+                    <small>Wiele</small>
+                </div>
+            </div>
+
+            <div class="slider-container mb-3">
+                <label for="Bulb Condition">
+                    Stan cebulek
+                    <input type="checkbox" id="Bulb Condition_na" class="n-a-checkbox" onclick="toggleNA('Bulb Condition')"> N/A
+                </label>
+                <input type="range" id="Bulb Condition" name="Bulb Condition" class="form-range" min="1" max="9" step="0.1" value="1">
+                <div class="membership-labels">
+                    <small>Normalny</small>
+                    <small>Zgniły</small>
+                </div>
+            </div>
+
+            <div class="slider-container mb-3">
+                <label for="Smell">
+                    Zapach
+                    <input type="checkbox" id="Smell_na" class="n-a-checkbox" onclick="toggleNA('Smell')"> N/A
+                </label>
+                <input type="range" id="Smell" name="Smell" class="form-range" min="1" max="9" step="0.1" value="1">
+                <div class="membership-labels">
+                    <small>Normalny</small>
+                    <small>Zgniły</small>
+                </div>
+            </div>
+
+            <div class="slider-container mb-3">
+                <label for="Defoliation">
+                    Opadanie liści
+                    <input type="checkbox" id="Defoliation_na" class="n-a-checkbox" onclick="toggleNA('Defoliation')"> N/A
+                </label>
+                <input type="range" id="Defoliation" name="Defoliation" class="form-range" min="1" max="9" step="0.1" value="1">
+                <div class="membership-labels">
+                    <small>Brak</small>
+                    <small>Częściowe</small>
+                    <small>Zaawansowane</small>
+                </div>
+            </div>
+
+            <div class="slider-container mb-3">
+                <label for="Lesions on Stems">
+                    Zmiany na łodygach
+                    <input type="checkbox" id="Lesions on Stems_na" class="n-a-checkbox" onclick="toggleNA('Lesions on Stems')"> N/A
+                </label>
+                <input type="range" id="Lesions on Stems" name="Lesions on Stems" class="form-range" min="1" max="9" step="0.1" value="1">
+                <div class="membership-labels">
+                    <small>Brak</small>
+                    <small>Plamy</small>
+                    <small>Smugi</small>
+                </div>
+            </div>
+
+            <div class="slider-container mb-3">
+                <label for="Root Weakness or Rotting">
+                    Osłabienie lub gnicie korzeni
+                    <input type="checkbox" id="Root Weakness or Rotting_na" class="n-a-checkbox" onclick="toggleNA('Root Weakness or Rotting')"> N/A
+                </label>
+                <input type="range" id="Root Weakness or Rotting" name="Root Weakness or Rotting" class="form-range" min="1" max="9" step="0.1" value="1">
+                <div class="membership-labels">
+                    <small>Brak</small>
+                    <small>Umiarkowane osłabienie</small>
+                    <small>Zaawansowane gnicie</small>
+                </div>
+            </div>
+
+            <div class="slider-container mb-3">
+                <label for="Slowed Growth">
+                    Opóźniony wzrost
+                    <input type="checkbox" id="Slowed Growth_na" class="n-a-checkbox" onclick="toggleNA('Slowed Growth')"> N/A
+                </label>
+                <input type="range" id="Slowed Growth" name="Slowed Growth" class="form-range" min="1" max="9" step="0.1" value="1">
+                <div class="membership-labels">
+                    <small>Brak</small>
+                    <small>Spowolniony wzrost</small>
+                    <small>Zatrzymanie wzrostu</small>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-success w-100">Diagnozuj</button>
+        </form>
+    </div>
+
+    <script>
+        // Toggle between slider value and "N/A"
+        function toggleNA(symptomId) {
+            const slider = document.getElementById(symptomId);
+            const checkbox = document.getElementById(`${symptomId}_na`);
+
+            if (checkbox.checked) {
+                slider.disabled = true; // Disable the slider
+                slider.value = "1"; // Reset slider to 0
+                slider.setAttribute("name", `${symptomId}_na`); // Change name to differentiate
+            } else {
+                slider.disabled = false; // Enable the slider
+                slider.setAttribute("name", symptomId); // Restore the name
+                slider.value = "1"; // Reset slider to default value
+            }
+        }
+    </script>
+</body>
+</html>
